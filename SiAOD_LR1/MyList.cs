@@ -30,37 +30,46 @@ namespace SiAOD_LR1
         //упрощение выражения
         public void Simplify()
         {
-            ReverseBegin();
-            //отдаём локальному основной, оба списка в начале
-            MyList clone = new MyList()
-            {
-                List = List
-            };
-
-            //индексаторы нужны для того что бы пропускать
-            //одинаковые члены при сравнении с локальной копией
-            int index = 0, localIndex = 0;
-
+            //индексаторы нужны для того что бы пропуска
+            //проверяемый элемент при сравнии
+            int index = 0;
+            bool isEnd = false;
+            Item item = new Item();
             //пока основной не кончился сверяю его с локальным
             //и объединяю члены с одинаковыми степенями
-            while (!IsEnd())
+            while (!isEnd)
             {
-                List = List.Next;
+                ReverseBegin();
                 index++;
-                localIndex = 0;
-                while (!clone.IsEnd())
+                for (int i = 0; i < index; i++)
                 {
-                    clone.List = clone.List.Next;
+                    List = List.Next;
+                    if (List.Next == null)
+                        isEnd = true;
+                }
+                if (List.Back.Back != null)
+                {
+                    List.Back.Number = item.Number;
+                    List.Back.Power = item.Power;
+                }
+                int localIndex = index;
+                item = new Item()
+                {
+                    Number = List.Number,
+                    Power = List.Power
+                };
+                while (!IsEnd())
+                {
                     localIndex++;
-                    if (clone.List.Power == List.Power && index != localIndex)
+                    List = List.Next;
+                    if (List.Power == item.Power && index != localIndex)
                     {
-                        List.Number += clone.List.Number;
-                        //удаление записанного члена многочлена у клона
-                        Item local = clone.List.Next;
-                        local.Back = clone.List.Back;
-                        clone.List.Back.Next = local;
-                        clone.List = local;
-                        //переход на предыдущий член И ЕЩЁ УМЕНЬШИТЬ ИНДЕКС!!!
+                        item.Number += List.Number;
+                        //удаление записанного члена многочлена
+                        Item local = List = List.Back;
+                        local.Next = List.Next;
+                        List = local;
+                        localIndex--;
                     }
                 }
             }
