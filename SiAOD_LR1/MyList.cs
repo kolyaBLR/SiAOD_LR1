@@ -24,7 +24,7 @@ namespace SiAOD_LR1
             };
             List.Next = local;
             List = local;
-            //Simplify();
+            Simplify();
         }
 
         //упрощение выражения
@@ -41,21 +41,23 @@ namespace SiAOD_LR1
             {
                 ReverseBegin();
                 index++;
+                //проходим в глуь списка по индексу
                 for (int i = 0; i < index; i++)
                 {
-                    List = List.Next;
-                    if (List.Next == null)
+                    if (List.Next != null)
+                        List = List.Next;
+                    else
                         isEnd = true;
                 }
-                if (List.Back.Back != null)
-                {
-                    List.Back.Number = item.Number;
-                    List.Back.Power = item.Power;
-                }
+                //записываем в предыдущий перебираемый элемент
+                //получившуюся сумму
+                List.Back.Number += item.Number;
+                //счётчик для вложенного цикла
+                //стартовый индекс
                 int localIndex = index;
                 item = new Item()
                 {
-                    Number = List.Number,
+                    Number = 0,
                     Power = List.Power
                 };
                 while (!IsEnd())
@@ -67,12 +69,32 @@ namespace SiAOD_LR1
                         item.Number += List.Number;
                         //удаление записанного члена многочлена
                         Item local = List = List.Back;
-                        local.Next = List.Next;
-                        List = local;
-                        localIndex--;
+                        try
+                        {
+                            local.Next = List.Next.Next;
+                            List.Next.Back = local;
+                            List = local;
+                            localIndex--;
+                        }
+                        catch
+                        {
+                            //создание буферного элемента списка
+                            //для корректного извлечения
+                            List = local;
+                            List.Next = new Item()
+                            {
+                                Back = List
+                            };
+                            List = List.Next;
+                            break;
+                        }
                     }
                 }
             }
+            //обнуление буферного элемента списка
+            ReverseEnd();
+            List = List.Back;
+            List.Next = null;
         }
 
         //являемся ли мы в начале списка
