@@ -16,10 +16,11 @@ namespace SiAOD_LR1
             first.Add(1, 2);
             first.Add(2, 1);
             first.Add(3, 3);
-            second.Add(4, 4);
-            second.Add(2, 3);
+            second.Add(2, 1);
+            second.Add(3, 3);
             second.Add(1, 2);
-            Meaning(first, 5);
+            Equality(first, second);
+            double result = Meaning(first, 5);
             Add(ref third, first, second);
             Console.ReadKey();
         }
@@ -30,7 +31,6 @@ namespace SiAOD_LR1
             p.ReverseEnd();
             q.ReverseBegin();
             p.List.Next = q.List.Next;
-            //p.List.Back.Back = p.List.Back;
 
             p.ReverseEnd();
             r.ReverseBegin();
@@ -43,7 +43,41 @@ namespace SiAOD_LR1
         //логическую функцию Equality(p,q), проверяющую равенство многочленов p и q
         static public bool Equality(MyList p, MyList q)
         {
-            return true;
+            p.Simplify();
+            q.Simplify();
+            while (!p.IsEnd())
+            {
+                p.List = p.List.Next;
+                q.ReverseBegin();
+                while (!q.IsEnd())
+                {
+                    q.List = q.List.Next;
+                    if (q.List.Number == p.List.Number && q.List.Power == p.List.Power)
+                    {
+                        Delete(ref p);
+                        Delete(ref q);
+                        break;
+                    }
+                }
+            }
+            return Comparison(p, q);
+        }
+
+        static public bool Comparison(MyList p, MyList q)
+        {
+            bool result = true;
+            p.ReverseBegin();
+            q.ReverseBegin();
+            while(!p.IsEnd())
+            {
+                if (p.List != q.List)
+                {
+                    result = false;
+                }
+                p.List = p.List.Next;
+                q.List = q.List.Next;
+            }
+            return result;
         }
 
         //функцию Meaning(p, x), вычисляющую значение многочлена в целочисленной точке х
@@ -51,12 +85,24 @@ namespace SiAOD_LR1
         {
             double result = 0;
             p.ReverseBegin();
-            while(!p.IsEnd())
+            while (!p.IsEnd())
             {
                 p.List = p.List.Next;
-                result += Math.Pow(x * p.List.Number, p.List.Power);
+                result += p.List.Number * Math.Pow(x, p.List.Power);
             }
             return result;
+        }
+
+        public static void Delete(ref MyList index)
+        {
+            Item local = index.List = index.List.Back;
+            try
+            {
+                local.Next = index.List.Next.Next;
+                index.List.Next.Back = local;
+                index.List = local;
+            }
+            catch { }
         }
     }
 }

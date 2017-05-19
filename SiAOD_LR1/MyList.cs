@@ -24,7 +24,6 @@ namespace SiAOD_LR1
             };
             List.Next = local;
             List = local;
-            Simplify();
         }
 
         //упрощение выражения
@@ -33,7 +32,7 @@ namespace SiAOD_LR1
             //индексаторы нужны для того что бы пропуска
             //проверяемый элемент при сравнии
             int index = 0;
-            bool isEnd = false;
+            bool isEnd = false, delete = false;
             Item item = new Item();
             //пока основной не кончился сверяю его с локальным
             //и объединяю члены с одинаковыми степенями
@@ -79,19 +78,30 @@ namespace SiAOD_LR1
                         catch
                         {
                             //создание буферного элемента списка
-                            //для корректного извлечения
+                            //для корректного извлечения последнего
                             List = local;
                             List.Next = new Item()
                             {
                                 Back = List
                             };
                             List = List.Next;
+                            delete = true;
                             break;
                         }
                     }
                 }
             }
-            //обнуление буферного элемента списка
+            //удаление буферного элемента списка (последнего)
+            if (delete)
+            {
+                DeleteEnd();
+            }
+            ReverseBegin();
+        }
+
+        //удаление последнего
+        public void DeleteEnd()
+        {
             ReverseEnd();
             List = List.Back;
             List.Next = null;
