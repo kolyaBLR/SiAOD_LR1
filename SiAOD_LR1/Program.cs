@@ -13,15 +13,24 @@ namespace SiAOD_LR1
             var x = Math.Pow(0, 2);
             MyList first = new MyList(), second = new MyList(), third = new MyList();
             Random rnd = new Random();
+
             first.Add(1, 2);
-            first.Add(2, 1);
             first.Add(3, 3);
+            first.Add(1, 1);
+            first.Add(1, 1);
+            first.Add(3, 3);
+
+            second.Add(1, 2);
+            second.Add(2, 3);
+            second.Add(1, 3);
             second.Add(2, 1);
             second.Add(3, 3);
-            second.Add(1, 2);
+
             Equality(first, second);
+
             double result = Meaning(first, 5);
             Add(ref third, first, second);
+            
             Console.ReadKey();
         }
 
@@ -63,7 +72,7 @@ namespace SiAOD_LR1
             return Comparison(p, q);
         }
 
-        static public bool Comparison(MyList p, MyList q)
+        static private bool Comparison(MyList p, MyList q)
         {
             bool result = true;
             p.ReverseBegin();
@@ -93,7 +102,7 @@ namespace SiAOD_LR1
             return result;
         }
 
-        public static void Delete(ref MyList index)
+        static private void Delete(ref MyList index)
         {
             Item local = index.List = index.List.Back;
             try

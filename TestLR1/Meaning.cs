@@ -12,11 +12,10 @@ namespace TestLR1
         {
             //arrange
             int x = 2;
-            int number1 = 2, power1 = 3, number2 = 3, power2 = 3;
-            double expected = 280;
+            double expected = 40;
             MyList list = new MyList();
-            list.Add(number1, power1);
-            list.Add(number2, power2);
+            list.Add(2, 3);
+            list.Add(3, 3);
 
             //act
             double result = Program.Meaning(list, x);
@@ -30,12 +29,11 @@ namespace TestLR1
         {
             //arrange
             int x = -2;
-            int number1 = -1, power1 = 0, number2 = 0, power2 = 1, number3 = 1, power3 = 0;
-            double expected = 2;
+            double expected = 3;
             MyList list = new MyList();
-            list.Add(number1, power1);
-            list.Add(number2, power2);
-            list.Add(number3, power3);
+            list.Add(1, 0);
+            list.Add(1, 0);
+            list.Add(1, 0);
 
             //act
             double result = Program.Meaning(list, x);

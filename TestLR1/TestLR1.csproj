@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Add.cs" />
+    <Compile Include="Comparison.cs" />
     <Compile Include="Meaning.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
