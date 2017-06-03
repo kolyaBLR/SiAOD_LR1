@@ -25,11 +25,11 @@ namespace SiAOD_LR1
             second.Add(1, 3);
             second.Add(2, 1);
             second.Add(3, 3);
-
-            Equality(first, second);
-
-            double result = Meaning(first, 5);
             Add(ref third, first, second);
+            Console.WriteLine("p {0}", third.GetPolynomial());
+            Console.WriteLine("Meaning {0}", Meaning(first, 5));
+            Console.WriteLine("Equality {0}", Equality(first, second));
+            
             
             Console.ReadKey();
         }

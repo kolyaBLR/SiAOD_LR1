@@ -138,5 +138,23 @@ namespace SiAOD_LR1
                 List = List.Next;
             }
         }
+
+        public string GetPolynomial()
+        {
+            ReverseBegin();
+            string result = "";
+            while (List.Next != null)
+            {
+                List = List.Next;
+                result += GenerateMember(List.Number, List.Power);
+            }
+            result += GenerateMember(List.Number, List.Power);
+            return result;
+        }
+
+        public string GenerateMember(int number, int power)
+        {
+            return number.ToString() + "+(X^" + power.ToString() + ")";
+        }
     }
 }
