@@ -154,7 +154,7 @@ namespace SiAOD_LR1
 
         public string GenerateMember(int number, int power)
         {
-            return number.ToString() + "+(X^" + power.ToString() + ")";
+            return "+(" + number.ToString() + "*X^" + power.ToString() + ")";
         }
     }
 }
