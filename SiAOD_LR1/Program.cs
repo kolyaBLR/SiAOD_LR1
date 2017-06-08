@@ -14,23 +14,40 @@ namespace SiAOD_LR1
             MyList first = new MyList(), second = new MyList(), third = new MyList();
             Random rnd = new Random();
 
-            first.Add(1, 2);
-            first.Add(3, 3);
-            first.Add(1, 1);
-            first.Add(1, 1);
-            first.Add(3, 3);
+            int[,,] array = new int[2, 5, 8]
+                {
+                    {
+                    { 7, 3, -1, 2, -2, 2, 1, -6 },
+                    { -8, -5, 1, 6, 3, 5, 1, -5 },
+                    { 6, 2, -1, -9, -7, -4, 1, 2 },
+                    { -9, -4, 1, 3, 6, 5, -1, -4 },
+                    { 3, 7, -1, 4, -4, 8, 1, -3 },
+                    },
+                    {
+                    { 4, 2, 1, 0, 5, 3, 1, 0 },
+                    { 7, 4, 1, 0, 4, 2, 1, 0 },
+                    { 3, 2, 1, 0, 6, 4, 1, 0 },
+                    { 6, 5, 1, 0, 9, 8, 1, 0 },
+                    { 5, 4, 1, 0, 7, 5, 1, 0 },
+                    }
+                };
 
-            second.Add(1, 2);
-            second.Add(2, 3);
-            second.Add(1, 3);
-            second.Add(2, 1);
-            second.Add(3, 3);
-            Add(ref third, first, second);
-            Console.WriteLine("p {0}", third.GetPolynomial());
-            Console.WriteLine("Meaning {0}", Meaning(first, 5));
-            Console.WriteLine("Equality {0}", Equality(first, second));
-            
-            
+            for (int i = 0; i < 5; i++)
+            {
+                first = new MyList();
+                second = new MyList();
+                third = new MyList();
+                for (int j = 0; j < 4; j++)
+                    first.Add(array[0, i, j], array[1, i, j]);
+                for (int j = 4; j < 8; j++)
+                    second.Add(array[0, i, j], array[1, i, j]);
+                Add(ref third, first, second);
+                Console.WriteLine("Number of equation {0}", i + 1);
+                Console.WriteLine("p {0}", third.GetPolynomial());
+                Console.WriteLine("Meaning {0} ", Meaning(first, 5));
+                Console.WriteLine("Equality {0}", Equality(first, second));
+                Console.WriteLine();
+            }
             Console.ReadKey();
         }
 
@@ -77,7 +94,7 @@ namespace SiAOD_LR1
             bool result = true;
             p.ReverseBegin();
             q.ReverseBegin();
-            while(!p.IsEnd())
+            while (!p.IsEnd())
             {
                 if (p.List != q.List)
                 {

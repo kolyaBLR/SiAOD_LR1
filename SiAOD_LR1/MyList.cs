@@ -148,7 +148,6 @@ namespace SiAOD_LR1
                 List = List.Next;
                 result += GenerateMember(List.Number, List.Power);
             }
-            result += GenerateMember(List.Number, List.Power);
             return result;
         }
 
